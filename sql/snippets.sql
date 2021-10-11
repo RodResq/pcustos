@@ -42,6 +42,31 @@ create table prd_produtos(
     prd_valor_base_pis_cofins decimal(5,2) not null default 0.00
 );
 
+create table mnf_modelo_nfe(
+	mnf_id serial primary key,
+    mnf_serie char(1) not null,
+    mnf_modelo tinyint not null
+);
+
+create table nfe_nota_fiscal(
+	nfe_id serial primary key,
+    nfe_numero int unsigned not null,
+    nfe_numero_xml varchar(30) not null,
+    nfe_xml blob,
+    nfe_valor_frete decimal(5,3) default 0.00,
+    nfe_valor_total_desconto decimal(5,3) default 0.00,
+    nfe_valor_ipi decimal(5,3) default 0.00
+);
+
+-- criacao tabela intermediaria entre produtos e nota fiscais
+create table prd_nfe_produtos_notas(
+	prd_id bigint unsigned not null,
+    nfe_id bigint unsigned not null,
+    primary key(prd_id, nfe_id),
+    foreign key(prd_id) references prd_produtos(prd_id),
+    foreign key(nfe_id) references nfe_nota_fiscal(nfe_id)
+);
+
 alter table prd_produtos
 add constraint fk_prd_produtos__ncm__ncm_id
 foreign key(ncm_id) references ncm(ncm_id);
