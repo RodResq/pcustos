@@ -9,7 +9,7 @@ class Cfop:
 
     @property
     def descricao(self):
-        return self.descricao
+        return self._descricao
 
     @codigo.setter
     def codigo(self, codigo):

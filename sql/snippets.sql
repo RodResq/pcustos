@@ -5,27 +5,68 @@ create database pcustos;
 use pcustos;
 
 create table ncm(
-	id serial primary key,
-    codigo int unique not null, 
-    descricao varchar(50) not null
+	ncm_id serial primary key,
+    ncm_codigo int unique not null, 
+    ncm_descricao varchar(50) not null
 );
 
 create table cfop(
-	id serial primary key,
-    codigo int unique not null,
-    descricao varchar(50) not null
+	cfop_id serial primary key,
+    cfop_codigo int unique not null,
+    cfop_descricao varchar(50) not null
 );
 
-create table produtos(
-	id serial primary key,
-    codigo int unsigned unique not null,
+create table tbe_tributacao_estadual(
+	tbe_id serial primary key,
+    tbe_descricao varchar(50) not null, 
+    tbe_aliquota tinyint unsigned not null,
+    tbe_ativo bool default 1
+);
+
+create table tbf_tributacao_federal(
+	tbf_id serial primary key,
+    tbf_descricao varchar(50) not null, 
+    tbf_aliquota tinyint unsigned not null,
+    tbf_ativo bool default 1
+);
+
+create table prd_produtos(
+	prd_id serial primary key,
+    prd_codigo int unsigned unique not null,
     ncm_id bigint unsigned not null,
     cfop_id bigint unsigned not null,
-    descricao varchar(50) not null,
-    quantidade tinyint unsigned not null, 
-	valor_unitario decimal(5,2) not null, 
-    valor_base_icms decimal(5,2) not null default 0.00,
-    valor_base_pis_cofins decimal(5,2) not null default 0.00,
-    foreign key(ncm_id) references ncm(id),
-    foreign key(cfop_id) references cfop(id)
+    prd_descricao varchar(50) not null,
+    prd_quantidade tinyint unsigned not null, 
+	prd_valor_unitario decimal(5,2) not null, 
+    prd_valor_base_icms decimal(5,2) not null default 0.00,
+    prd_valor_base_pis_cofins decimal(5,2) not null default 0.00
 );
+
+alter table prd_produtos
+add constraint fk_prd_produtos__ncm__ncm_id
+foreign key(ncm_id) references ncm(ncm_id);
+
+alter table prd_produtos
+add constraint fk_prd_produtos__cfop__cfop_id
+foreign key(cfop_id) references cfop(cfop_id);
+
+alter table prd_produtos
+add column tbe_id bigint unsigned not null,
+add column tbf_id bigint unsigned not null;
+
+alter table prd_produtos
+add constraint fk_produtos__tbe_tributacao_estadual__tbe_id
+foreign key(tbe_id) references tbe_tributacao_estadual(tbe_id);
+
+alter table prd_produtos
+add constraint fk_produtos__tbf_tributacao_federal__tbf_id
+foreign key(tbf_id) references tbf_tributacao_federal(tbf_id);
+
+-- drop table produtos;
+-- drop table ncm;
+-- drop table cfop;
+-- drop table tbe_tributacao_estadual;
+
+
+
+
