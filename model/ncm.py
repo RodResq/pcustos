@@ -1,4 +1,4 @@
-class Ncm():
+class Ncm:
     def __init__(self, codigo, descricao):
         self._codigo = codigo
         self._descricao = descricao

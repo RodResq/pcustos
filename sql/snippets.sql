@@ -6,19 +6,26 @@ use pcustos;
 
 create table ncm(
 	id serial primary key,
-    codigo int not null, -- verficar tamanho ncm
-    descricao varchar(150) not null
+    codigo int unique not null, 
+    descricao varchar(50) not null
 );
 
-insert into ncm
-(codigo, descricao)
-values
-(33053245, 'Descricao test 2');
+create table cfop(
+	id serial primary key,
+    codigo int unique not null,
+    descricao varchar(50) not null
+);
 
-alter table ncm change column codigo codigo int(8) not null;
-
-describe ncm;
-
-select * from ncm;
-
-drop table ncm;
+create table produtos(
+	id serial primary key,
+    codigo int unsigned unique not null,
+    ncm_id bigint unsigned not null,
+    cfop_id bigint unsigned not null,
+    descricao varchar(50) not null,
+    quantidade tinyint unsigned not null, 
+	valor_unitario decimal(5,2) not null, 
+    valor_base_icms decimal(5,2) not null default 0.00,
+    valor_base_pis_cofins decimal(5,2) not null default 0.00,
+    foreign key(ncm_id) references ncm(id),
+    foreign key(cfop_id) references cfop(id)
+);
