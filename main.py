@@ -6,4 +6,5 @@ ncm = ncm.Ncm(33045590, 'Descricao Teste 1')
 print(f'o codigo ncm do produto e: {ncm.codigo}')
 print(f'A descricao do ncm do produto e: {ncm.descricao}')
 
-ncm.codigo = 33056657
+ncm.codigo = 330566579
+print(f'Novo ncm gravado e {ncm.codigo}')

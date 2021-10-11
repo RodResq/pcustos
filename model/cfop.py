@@ -1,4 +1,4 @@
-class Ncm:
+class Cfop:
     def __init__(self, codigo, descricao):
         self._codigo = codigo
         self._descricao = descricao
@@ -9,13 +9,14 @@ class Ncm:
 
     @property
     def descricao(self):
-        return self._descricao;
+        return self.descricao
 
     @codigo.setter
     def codigo(self, codigo):
-        if codigo is not None and len(str(codigo)) == 8:
+        if codigo is not None and len(str(codigo)) == 5:
             self._codigo = codigo
-            print(f'Ncm gravado')
-        else:
-            self._codigo = None
-            print('Tamanho do ncm invalido!')
+
+    @descricao.setter
+    def descricao(self, descricao):
+        if not descricao and descricao != '':
+            self._descricao = descricao
